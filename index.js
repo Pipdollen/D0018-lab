@@ -1,41 +1,30 @@
 const express = require("express");
 const http = require("http");
-const { Server } = require("socket.io");
-const mysql = require("mysql2");
+const path = require("path");
+const db = require("./db/mysql");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
 
-//create db connection
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "app_user",
-  password: "strongpassword",
-  database:"SkiShop_db"
-});
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-db.connect(err =>{
-  if(err) throw err;
-  console.log("MySQL connected");
-});
+app.post("/search", (req, res) => {
+  const { query } = req.body;
 
-io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  db.query(
+    "SELECT * FROM items WHERE name = ?",
+    [query],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: "DB error" });
+      if (results.length === 0)
+        return res.json({ message: "No results found" });
 
-  socket.on("message", (msg) => {
-    io.emit("message", msg);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
-
-app.get("/", (req, res) => {
-  res.send("Server running");
+      res.json(results[0]);
+    }
+  );
 });
 
 server.listen(3000, () => {
-  console.log("Listening on port 3000");
+  console.log("Server running on port 3000");
 });
