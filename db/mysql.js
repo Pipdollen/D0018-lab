@@ -2,9 +2,9 @@ const mysql = require("mysql2");
 
 const db = mysql.createPool({
   host: "localhost",
-  user: "app_user",
-  password: "strongpassword",
-  database: "SkiShop_db",
+  user: "appuser",
+  password: "Strongpassword",
+  database: "SkiStore",
   waitForConnections: true,
   connectionLimit: 5
 });
