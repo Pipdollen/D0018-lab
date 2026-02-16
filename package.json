@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "vite --host",
+    "start": "node app.jsx",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,6 +14,13 @@
   "dependencies": {
     "express": "^5.2.1",
     "mysql2": "^3.16.2",
-    "socket.io": "^4.8.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^6.30.3",
+    "socket.io": "^4.8.3",
+    "vite": "^6.4.1"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.97.3"
   }
 }

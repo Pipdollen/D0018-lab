@@ -1,0 +1,90 @@
+.register {
+    height: 100vh;
+    background-color: rgb(79, 238, 230);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .card {
+        width: 50%;
+        display: flex;
+        background-color: lightblue;
+        border-radius: 7px;
+        min-height: 400px;
+        overflow: hidden;
+
+        .left {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            justify-content: center;
+
+            h1 {
+                color: #555
+            }
+
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+
+                input {
+                    background-color: lightblue;
+                    border: none;
+                    border-bottom: 1px solid #555;
+                    padding: 20px 10px;
+                    color: white;
+                    font-size: 20px;
+                }
+
+                button {
+                    width: 50%;
+                    padding: 10px;
+                    border: none;
+                    background-color: rgb(0, 148, 153);
+                    color: white;
+                    cursor: pointer;
+                    align-self: center;
+                }
+            }
+
+        }
+
+        .right {
+            flex: 1;
+            background: linear-gradient(rgba(15, 141, 199, 0.411), rgba(81, 7, 100, 0.39)), url("https://images.pexels.com/photos/47356/freerider-skiing-ski-sports-47356.jpeg") center center/cover no-repeat;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            color: white;
+
+            h1 {
+                font-size: 50px;
+                line-height: 50px;
+            }
+
+            p {
+                font-size: 25px;
+            }
+
+            span {
+                font-size: 25px;
+            }
+
+            button {
+                width: 70%;
+                padding: 10px;
+                font-size: 20px;
+                background-color: white;
+                color: rgb(0, 148, 153);
+                border: none;
+                cursor: pointer;
+                align-self: center;
+            }
+
+        }
+    }
+}
