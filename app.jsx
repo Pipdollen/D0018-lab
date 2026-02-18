@@ -19,7 +19,6 @@ function App() {
     const Layout = () => {
         return (
             <div>
-                <Navbar />
                 <div style={{ display: "flex" }}>
                     <LeftBar />
                     <Outlet />
@@ -32,31 +31,32 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout/>,
-            children:[
+            element: <Layout />,
+            children: [
                 {
                     path: "/",
-                    element: <Home/>
+                    element: <Home />
                 },
-                {
-                    path: "/profile/:id",
-                    element: <Profile/>
-                }
             ]
         },
         {
             path: "/login",
-            element: <Login/>
+            element: <Login />
         },
         {
             path: "/register",
-            element: <Register/>
+            element: <Register />
         },
+        {
+            path: "/profile",
+            element: <Profile />
+        }
     ]);
 
 
     return (
         <div>
+            <Navbar />
             <RouterProvider router={router} />
         </div>
     )
