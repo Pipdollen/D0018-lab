@@ -1,0 +1,69 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    height: 30px;
+    border-bottom: 1px solid #555;
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+
+        .link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            span {
+                font-size: 25px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .center {
+        display: flex;
+        align-items: center;
+        gap: 19px;
+
+        .search {
+            gap: 5px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #555;
+            padding: 5px;
+
+            input {
+                border: none;
+                outline: none;
+                width: 500px;
+            }
+        }
+
+        button {
+            padding: 5px 10px;
+            display: flex;
+        }
+
+    }
+
+    .right {
+        gap: 15px;
+        display: flex;
+        align-items: center;
+
+        .link {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            span {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+        
+    }
+}

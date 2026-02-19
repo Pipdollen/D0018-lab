@@ -12,17 +12,28 @@ import LeftBar from './components/leftBar/LeftBar';
 import RightBar from './components/rightBar/rightBar';
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
+import ShoppingCart from './pages/shoppingcart/ShoppingCart';
+import Orders from './pages/orders/Orders';
 
 
 
 function App() {
-    const Layout = () => {
+    const RootLayout = () => {
         return (
             <div>
+                <Navbar />
+                <Outlet />
+            </div>
+        );
+    };
+
+    const MainLayout = () => {
+        return (
+            <div>
+                <Navbar />
                 <div style={{ display: "flex" }}>
                     <LeftBar />
                     <Outlet />
-                    <RightBar />
                 </div>
             </div>
         );
@@ -31,7 +42,7 @@ function App() {
     const router = createBrowserRouter([
         {
             path: "/",
-            element: <Layout />,
+            element: <MainLayout />,
             children: [
                 {
                     path: "/",
@@ -41,22 +52,59 @@ function App() {
         },
         {
             path: "/login",
-            element: <Login />
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/login",
+                    element: <Login />
+                },
+            ]
         },
         {
             path: "/register",
-            element: <Register />
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/register",
+                    element: <Register />
+                },
+            ]
         },
         {
             path: "/profile",
-            element: <Profile />
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/profile",
+                    element: <Profile />
+                },
+            ]
+        },
+        {
+            path: "/shoppingcart",
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/shoppingcart",
+                    element: <ShoppingCart />
+                },
+            ]
+        },
+        {
+            path: "/orders",
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/orders",
+                    element: <Orders />
+                },
+            ]
         }
     ]);
 
 
     return (
         <div>
-            <Navbar />
             <RouterProvider router={router} />
         </div>
     )

@@ -1,10 +1,31 @@
 .profile {
-    height: 100vh;
+    height: 100%;
+    padding: 50px;
     background-color: rgb(79, 238, 230);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+
+    button {
+
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: rgb(0, 148, 153);
+        color: white;
+        cursor: pointer;
+        align-self: center;
+    }
+
+    .profile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 50px;
+    }
 
     h1 {
         font-size: 50px;
@@ -17,39 +38,91 @@
 
     }
 
-    form {
-        flex: 1;
-        padding: 50px;
+    .card {
+        width: 50%;
         display: flex;
-        flex-direction: column;
-        gap: 30px;
-        
+        background-color: lightblue;
+        border-radius: 7px;
+        min-height: 1px;
+        justify-content: space-between;
 
-        p {
-            font-size: 25px;
+        .left {
+            form {
+                flex: 1;
+                padding: 50px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+
+
+                p {
+                    font-size: 25px;
+
+                }
+
+                input {
+                    background-color: lightblue;
+                    border: none;
+                    border-bottom: 1px solid #555;
+                    padding: 20px 10px;
+                    color: white;
+                    font-size: 20px;
+
+                }
+
+                button {
+
+                    width: 50%;
+                    padding: 10px;
+                    border: none;
+                    background-color: rgb(0, 148, 153);
+                    color: white;
+                    cursor: pointer;
+                    align-self: center;
+                }
+
+            }
 
         }
 
-        input {
-            background-color: lightblue;
-            border: none;
-            border-bottom: 1px solid #555;
-            padding: 20px 10px;
-            color: white;
-            font-size: 20px;
+        .right {
+            form {
+                flex: 1;
+                padding: 50px;
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
 
-        }
 
-        button {
+                p {
+                    font-size: 25px;
 
-            width: 50%;
-            padding: 10px;
-            border: none;
-            background-color: rgb(0, 148, 153);
-            color: white;
-            cursor: pointer;
-            align-self: center;
+                }
+
+                input {
+                    background-color: lightblue;
+                    border: none;
+                    border-bottom: 1px solid #555;
+                    padding: 20px 10px;
+                    color: white;
+                    font-size: 20px;
+
+                }
+
+                button {
+
+                    width: 50%;
+                    padding: 10px;
+                    border: none;
+                    background-color: rgb(0, 148, 153);
+                    color: white;
+                    cursor: pointer;
+                    align-self: center;
+                }
+            }
+
         }
 
     }
+
 }

@@ -1,0 +1,50 @@
+.leftBar {
+    padding: 50px;
+    background-color: rgb(185, 201, 199);
+
+    .categories {
+
+        h2 {}
+
+        select {
+            width: 120px;
+            padding: 5px;
+            border: none;
+            border-bottom: 1px solid #555;
+            background-color: transparent;
+        }
+    }
+
+    .PriceRange {
+
+        h2 {}
+
+        div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            input {
+
+                width: 50px;
+                padding: 5px;
+                border: none;
+                border-bottom: 1px solid #555;
+                background-color: transparent;
+            }
+        }
+    }
+
+    .brand {
+        h2 {}
+
+        select {
+            width: 120px;
+            padding: 5px;
+            border: none;
+            border-bottom: 1px solid #555;
+            background-color: transparent;
+        }
+    }
+
+}
