@@ -160,6 +160,11 @@ export const processCheckout = async (req, res) => {
                     WHERE idProducts = ? AND stock >= ?`,
                     [item.amount, item.idProduct, item.amount]
                 );
+
+                if (stockUpdateResult.affectedRows === 0) {
+                    await connection.query("ROLLBACK");
+                    return res.status(400).json(`Checkout failed. Insufficient stock for product ID ${item.idProduct}.`);
+                }
             }
 
             // Create payment record with completed status
