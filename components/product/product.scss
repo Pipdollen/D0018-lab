@@ -1,0 +1,38 @@
+.product{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    height: 300px;
+    background-color: white;
+    border-radius: 10px;
+    .productInfo{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        h2{
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        img{
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin: 10px 0;
+        }
+        button{
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+    
+}

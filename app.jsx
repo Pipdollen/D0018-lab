@@ -13,7 +13,9 @@ import RightBar from './components/rightBar/rightBar';
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
 import ShoppingCart from './pages/shoppingcart/ShoppingCart';
+import Checkout from './pages/checkout/checkout';
 import Orders from './pages/orders/Orders';
+import AddItems from './pages/addItems/AddItems';
 
 
 
@@ -91,12 +93,32 @@ function App() {
             ]
         },
         {
+            path: "/checkout",
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/checkout",
+                    element: <Checkout />
+                },
+            ]
+        },
+        {
             path: "/orders",
             element: <RootLayout />,
             children: [
                 {
                     path: "/orders",
                     element: <Orders />
+                },
+            ]
+        },
+        {
+            path: "/additems",
+            element: <RootLayout/>,
+            children: [
+                {
+                    path: "/additems",
+                    element: <AddItems/>
                 },
             ]
         }

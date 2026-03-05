@@ -25,10 +25,15 @@ const Register = () => {
             setErr("Passwords do not match");
             return;
         }
+        //check if input has an @
+        if (inputs.email.includes("@") == false){
+            setErr("That is not a valid email!")
+            return;
+        }
         try{
             inputs.confirmPassword = undefined;
-            await axios.post("http://13.53.123.179:3000/api/auth/register", inputs);
-            setErr("account created successfully");
+            await axios.post("/api/auth/register", inputs);
+            setErr("Account was created successfully");
         } catch (err) {
             setErr(err.response.data);
         }
@@ -36,7 +41,7 @@ const Register = () => {
         //todo
     };
 
-    console.log(err);
+    //console.log(err);
     
 
     return (

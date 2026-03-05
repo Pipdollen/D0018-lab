@@ -4,7 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite --host",
-    "start": "nodemon api/index.js",
+    "build": "vite build",
+    "start": "node api/index.js",
+    "start:dev": "nodemon api/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
