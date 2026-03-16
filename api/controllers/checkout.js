@@ -54,7 +54,7 @@ export const processCheckout = async (req, res) => {
         const { address, city, country, zipCode, cardName, cardNumber, expiryDate, cvv } = req.body;
 
         // Validate required fields
-        if (!address || !city || !country || !zipCode || !cardName) {
+        if (!address || !city || !country || !zipCode || !cardName || !cardNumber || !expiryDate || !cvv) {
             return res.status(400).json("All address and payment fields are required.");
         }
 
@@ -219,10 +219,36 @@ export const getOrders = async (req, res) => {
     const connection = db.promise();
 
     try {
-        // Fetch all orders for user with payment and address information
-        const [orderRows] = await connection.query(
-            `SELECT
+        const [userRows] = await connection.query(
+            "SELECT is_admin FROM Users WHERE idUsers = ?",
+            [userId]
+        );
+
+        if (!userRows.length) {
+            return res.status(404).json("User not found.");
+        }
+
+        const isAdmin = Number(userRows[0].is_admin) === 1;
+
+        const ordersQuery = isAdmin
+            ? `SELECT
                 o.idOrders,
+                o.idOrderUser,
+                o.total_price,
+                o.status,
+                o.timePurchased,
+                p.status AS paymentStatus,
+                a.adress,
+                a.city,
+                a.Country,
+                a.zipCode
+            FROM Orders o
+            LEFT JOIN Payments p ON p.idPaymentOrder = o.idOrders
+            LEFT JOIN Adresses a ON a.idAdress = o.idOrderAdress
+            ORDER BY o.timePurchased DESC`
+            : `SELECT
+                o.idOrders,
+                o.idOrderUser,
                 o.total_price,
                 o.status,
                 o.timePurchased,
@@ -235,8 +261,13 @@ export const getOrders = async (req, res) => {
             LEFT JOIN Payments p ON p.idPaymentOrder = o.idOrders
             LEFT JOIN Adresses a ON a.idAdress = o.idOrderAdress
             WHERE o.idOrderUser = ?
-            ORDER BY o.timePurchased DESC`,
-            [userId]
+            ORDER BY o.timePurchased DESC`;
+
+        const queryParams = isAdmin ? [] : [userId];
+
+        const [orderRows] = await connection.query(
+            ordersQuery,
+            queryParams
         );
 
         if (!orderRows.length) {
@@ -280,6 +311,7 @@ export const getOrders = async (req, res) => {
 
         const response = orderRows.map((order) => ({
             idOrder: order.idOrders,
+            idOrderUser: order.idOrderUser,
             total_price: order.total_price,
             status: order.status,
             paymentStatus: order.paymentStatus,

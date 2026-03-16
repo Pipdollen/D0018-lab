@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import {
@@ -14,8 +14,10 @@ import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
 import ShoppingCart from './pages/shoppingcart/ShoppingCart';
 import Checkout from './pages/checkout/checkout';
+import RentalCheckout from './pages/rentalcheckout/RentalCheckout';
 import Orders from './pages/orders/Orders';
 import AddItems from './pages/addItems/AddItems';
+import Product from './pages/product/Product';
 
 
 
@@ -30,12 +32,24 @@ function App() {
     };
 
     const MainLayout = () => {
+        const [filters, setFilters] = useState({
+            category: "all",
+            brand: "all",
+            size: "all",
+            minPrice: "",
+            maxPrice: "",
+        });
+
+        const handleFilterChange = (name, value) => {
+            setFilters((prev) => ({ ...prev, [name]: value }));
+        };
+
         return (
             <div>
                 <Navbar />
                 <div style={{ display: "flex" }}>
-                    <LeftBar />
-                    <Outlet />
+                    <LeftBar filters={filters} onFilterChange={handleFilterChange} />
+                    <Outlet context={{ filters }} />
                 </div>
             </div>
         );
@@ -119,6 +133,26 @@ function App() {
                 {
                     path: "/additems",
                     element: <AddItems/>
+                },
+            ]
+        },
+        {
+            path: "/product",
+            element: <RootLayout/>,
+            children: [
+                {
+                    path: "/product/:idProducts",
+                    element: <Product/>
+                },
+            ]
+        },
+        {
+            path: "/rental-checkout",
+            element: <RootLayout />,
+            children: [
+                {
+                    path: "/rental-checkout",
+                    element: <RentalCheckout />
                 },
             ]
         }

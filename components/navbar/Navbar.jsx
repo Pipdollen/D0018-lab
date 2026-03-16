@@ -45,7 +45,7 @@ const Navbar = () => {
         } else if (user.is_admin == 1){
             return(
             <Link to="/additems" style={{ textDecoration: "none", color: "black" }} className="link">
-                <button>AddItems</button>
+                <button>AddItems / change Stock</button>
             </Link>
             )
         } else {
@@ -74,15 +74,7 @@ const Navbar = () => {
 
             </div>
             <div className="center">
-                <div className="search">
-                    <SearchOutlinedIcon />
-                    <input type="text" placeholder="Search for products, brands and more" />
-                </div>
-                <Link to="/register" style={{ textDecoration: "none", color: "black" }}>
-
-                    <button>Register</button>
-                </Link>
-                <span> Temporary button</span>
+                
                 {checkAdmin(currentUser)}
             </div>
 

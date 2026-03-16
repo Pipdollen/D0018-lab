@@ -10,8 +10,74 @@ import jwt from "jsonwebtoken";
  * @returns {Object} Product data or error message
  */
 export const getItem = (req, res) => {
-    return(null);
+    const idProduct = Number(req.params.idProducts);
+
+    if (Number.isNaN(idProduct)) {
+        return res.status(400).json("Invalid product id.");
+    }
+
+    const q = `
+        SELECT
+            p.*,
+            c.category_name,
+            b.brand_name,
+            s.size
+        FROM Products p
+        LEFT JOIN Categories c ON c.idCategories = p.idProductCategorie
+        LEFT JOIN Brands b ON b.idBrands = p.idProductBrand
+        LEFT JOIN Sizes s ON s.idSizes = p.idProductSize
+        WHERE p.idProducts = ?
+    `;
+
+    db.query(q, [idProduct], (err, data) => {
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json(err);
+        }
+
+        if (!Array.isArray(data) || data.length === 0) {
+            return res.status(404).json("Product not found.");
+        }
+
+        return res.status(200).json(data[0]);
+    });
 }
+
+const getAdminRequesterId = async (req, connection) => {
+    const token = req.cookies?.access_token;
+
+    if (!token) {
+        return { error: { status: 401, message: "Not authenticated." } };
+    }
+
+    let userInfo;
+    try {
+        userInfo = jwt.verify(token, "secretkey");
+    } catch (error) {
+        return { error: { status: 401, message: "Invalid token." } };
+    }
+
+    const requesterId = userInfo.userId;
+
+    if (!requesterId) {
+        return { error: { status: 401, message: "Invalid token payload." } };
+    }
+
+    const [userRows] = await connection.query(
+        "SELECT is_admin FROM Users WHERE idUsers = ?",
+        [requesterId]
+    );
+
+    if (!userRows.length) {
+        return { error: { status: 401, message: "User not found." } };
+    }
+
+    if (Number(userRows[0].is_admin) !== 1) {
+        return { error: { status: 403, message: "Only admins can update items." } };
+    }
+
+    return { requesterId };
+};
 
 /**
  * Add a new product to the catalog.
@@ -35,38 +101,14 @@ export const addItem = async (req, res) => {
     const connection = db.promise();
 
     try {
-        const token = req.cookies?.access_token;
-
-        if (!token) {
-            return res.status(401).json("Not authenticated.");
+        const authResult = await getAdminRequesterId(req, connection);
+        if (authResult.error) {
+            const { status, message } = authResult.error;
+            return res.status(status).json(message);
         }
 
-        let userInfo;
-        try {
-            userInfo = jwt.verify(token, "secretkey");
-        } catch (error) {
-            return res.status(401).json("Invalid token.");
-        }
-
-        
-        const requesterId = userInfo.userId;
-
-        if (!requesterId) {
+        if (!authResult.requesterId) {
             return res.status(401).json("Invalid token payload.");
-        }
-
-        // Verify user exists and is admin
-        const [userRows] = await connection.query(
-            "SELECT is_admin FROM Users WHERE idUsers = ?",
-            [requesterId]
-        );
-
-        if (!userRows.length) {
-            return res.status(401).json("User not found.");
-        }
-
-        if (Number(userRows[0].is_admin) !== 1) {
-            return res.status(403).json("Only admins can add items.");
         }
 
         // Extract product information from request
@@ -121,6 +163,78 @@ export const addItem = async (req, res) => {
     } catch (err) {
         console.error("Database error:", err);
         return res.status(500).json(err.message || "Database error");
+    }
+}
+
+export const updateStock = async (req, res) => {
+    const connection = db.promise();
+    const idProduct = Number(req.params.idProducts);
+    const newStock = Number(req.body?.stock);
+
+    if (Number.isNaN(idProduct)) {
+        return res.status(400).json("Invalid product id.");
+    }
+
+    if (!Number.isInteger(newStock) || newStock < 0) {
+        return res.status(400).json("Stock must be a non-negative integer.");
+    }
+
+    try {
+        const authResult = await getAdminRequesterId(req, connection);
+        if (authResult.error) {
+            const { status, message } = authResult.error;
+            return res.status(status).json(message);
+        }
+
+        const [updateResult] = await connection.query(
+            "UPDATE Products SET stock = ? WHERE idProducts = ?",
+            [newStock, idProduct]
+        );
+
+        if (updateResult.affectedRows === 0) {
+            return res.status(404).json("Product not found.");
+        }
+
+        return res.status(200).json("Stock updated successfully.");
+    } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).json(error.message || "Database error");
+    }
+}
+
+export const updatePrice = async (req, res) => {
+    const connection = db.promise();
+    const idProduct = Number(req.params.idProducts);
+    const newPrice = Number(req.body?.price);
+
+    if (Number.isNaN(idProduct)) {
+        return res.status(400).json("Invalid product id.");
+    }
+
+    if (Number.isNaN(newPrice) || newPrice < 0) {
+        return res.status(400).json("Price must be a non-negative number.");
+    }
+
+    try {
+        const authResult = await getAdminRequesterId(req, connection);
+        if (authResult.error) {
+            const { status, message } = authResult.error;
+            return res.status(status).json(message);
+        }
+
+        const [updateResult] = await connection.query(
+            "UPDATE Products SET price = ? WHERE idProducts = ?",
+            [newPrice, idProduct]
+        );
+
+        if (updateResult.affectedRows === 0) {
+            return res.status(404).json("Product not found.");
+        }
+
+        return res.status(200).json("Price updated successfully.");
+    } catch (error) {
+        console.error("Database error:", error);
+        return res.status(500).json(error.message || "Database error");
     }
 }
 

@@ -5,6 +5,8 @@ import itemsRoutes from './routes/items.js';
 import authRoutes from './routes/auth.js';
 import shoppingcartRoutes from './routes/shoppingcart.js';
 import checkoutRoutes from './routes/checkout.js';
+import reviewRoutes from './routes/reviews.js';
+import rentalRoutes from './routes/rental.js';
 import cors from 'cors';
 import cookieparser from 'cookie-parser';
 import path from 'path';
@@ -33,6 +35,8 @@ app.use("/api/users", usersRoutes);
 app.use("/api/items", itemsRoutes);
 app.use("/api/shoppingcart", shoppingcartRoutes);
 app.use("/api/checkout", checkoutRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/rentals", rentalRoutes);
 app.use(express.static(distPath));
 
 app.get(/^\/(?!api).*/, (req, res) => {

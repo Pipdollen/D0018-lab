@@ -7,6 +7,25 @@ import { AuthContext } from "../../context/authContext"
 const Product = ({ product }) => {
     const { currentUser } = useContext(AuthContext);
 
+    const handleAddToRental = async (e) => {
+        e.preventDefault();
+        if (!currentUser) {
+            alert("Please login to rent items.");
+            return;
+        }
+        try {
+            await axios.post(
+                "/api/rentals/cart/items",
+                { idProduct: product.idProducts, quantity: 1 },
+                { withCredentials: true }
+            );
+            alert("Item added to rental cart!");
+        } catch (error) {
+            console.error("Failed to add item to rental cart:", error);
+            alert(error.response?.data || "Could not add item to rental cart.");
+        }
+    };
+
     const handleAddToCart = async (e) => {
         e.preventDefault();
 
@@ -41,6 +60,9 @@ const Product = ({ product }) => {
                 <p>Stock: {product.stock}</p>
                 <form onSubmit={handleAddToCart}>
                     <button type="submit">Add to Cart</button>
+                </form>
+                <form onSubmit={handleAddToRental}>
+                    <button type="submit">Rent</button>
                 </form>
             </div>
 

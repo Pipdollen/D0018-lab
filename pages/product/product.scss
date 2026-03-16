@@ -1,0 +1,79 @@
+.productPage {
+	display: flex;
+	justify-content: center;
+	padding: 24px;
+
+	.productCard {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		width: 360px;
+		padding: 16px;
+		border: 1px solid black;
+		border-radius: 8px;
+		background: white;
+
+		img {
+			width: 100%;
+			height: 220px;
+			object-fit: cover;
+			border-radius: 6px;
+		}
+
+		.price {
+			font-size: 20px;
+			font-weight: 600;
+		}
+
+		.actions {
+			display: flex;
+			gap: 12px;
+			margin-top: 8px;
+			align-items: center;
+		}
+
+		button {
+			border: none;
+			border-radius: 6px;
+			padding: 10px 14px;
+			cursor: pointer;
+		}
+
+		.reviewsSection {
+			margin-top: 18px;
+			border-top: 1px solid black;
+			padding-top: 12px;
+
+			.reviewForm {
+				display: flex;
+				flex-direction: column;
+				gap: 6px;
+				margin-bottom: 12px;
+
+				select,
+				textarea {
+					padding: 8px;
+					border: 1px solid black;
+					border-radius: 6px;
+				}
+
+				textarea {
+					min-height: 80px;
+					resize: vertical;
+				}
+			}
+
+			.reviewList {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+			}
+
+			.reviewItem {
+				border: 1px solid black;
+				border-radius: 6px;
+				padding: 10px;
+			}
+		}
+	}
+}

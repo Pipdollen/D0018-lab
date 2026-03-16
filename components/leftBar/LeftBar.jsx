@@ -2,7 +2,7 @@ import "./leftBar.scss";
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 
-const LeftBar = () => {
+const LeftBar = ({ filters, onFilterChange }) => {
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [sizes, setSizes] = useState([]);
@@ -35,12 +35,16 @@ const LeftBar = () => {
         fetchDropdownData();
     }, []);
 
+    const handleInputChange = (e) => {
+        onFilterChange(e.target.name, e.target.value);
+    };
+
     return (
         <div className="leftBar">
             <h1>Filters</h1>
             <div className="categories">
                 <h2>Categories</h2>
-                <select name="categories" id="categories" >
+                <select name="category" id="categories" value={filters.category} onChange={handleInputChange}>
                     <option value="all">All</option>
                     {categories.map((cat) => (
                         <option key={cat.idCategories} value={cat.idCategories}>
@@ -52,13 +56,13 @@ const LeftBar = () => {
             <div className="PriceRange">
                 <h2>Price range</h2>
                 <div className="priceRange">
-                    <input type="number" placeholder="Min" />
-                    <input type="number" placeholder="Max" />
+                    <input type="number" name="minPrice" placeholder="Min" value={filters.minPrice} onChange={handleInputChange} />
+                    <input type="number" name="maxPrice" placeholder="Max" value={filters.maxPrice} onChange={handleInputChange} />
                 </div>
             </div>
             <div className="brand">
                 <h2>Brand</h2>
-                <select name="brand" id="brand" >
+                <select name="brand" id="brand" value={filters.brand} onChange={handleInputChange}>
                     <option value="all">All</option>
                     {brands.map((brand) => (
                         <option key={brand.idBrands} value={brand.idBrands}>
@@ -67,7 +71,7 @@ const LeftBar = () => {
                     ))}
                 </select>
                 <h2>Size</h2>
-                <select name="size" id="size" >
+                <select name="size" id="size" value={filters.size} onChange={handleInputChange}>
                     <option value="all">All</option>
                     {sizes.map((size) => (
                         <option key={size.idSizes} value={size.idSizes}>
